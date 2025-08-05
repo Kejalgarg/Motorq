@@ -32,6 +32,7 @@ void alert(int speed, int batteryPercentage){
         for(int i=0; i<alert_battery.size();i++){
             if(alert_battery[i]==1){
                 count_battery++;
+                if(count_battery>=3) break;
             }else{
                 count_battery=0;
             }
@@ -46,6 +47,7 @@ void alert(int speed, int batteryPercentage){
         for(int j=0; j<alert_speed.size();j++){
             if(alert_speed[j]==1){
                 count_speed++;
+                if(count_speed>=3) break;
             }else{
                 count_speed=0;
             }
