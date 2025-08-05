@@ -1,5 +1,13 @@
+
 #include <iostream>
+#include <stdlib.h>
 using namespace std;
+
+int active=0;
+int inactive=0;
+int countt=0; //total count of telemenatry data vehicles to calculate average bettery
+int battery=0; //sum of all battery percenatges
+long long fleetDistance; //to calculate distance travelled by the fleet
 
 class Vehicle{
     public:
@@ -10,25 +18,22 @@ class Vehicle{
     long long fleetId;
     string status; //Registration status: Active, Maintenance, Decommissioned
     string owner;
-    long long distance; //to calculate distance travelled by the fleet
+   
 
 
 //Real-time Telemetry Data Processing
 //Later Integrate APIs
-    pair<long long, long long> coordinates;
+    int latitude;
+    int longitude;
     int batteryPercentage;
     string engineStatus; // On, Off, Idle
     int speed;
     int odometerReading;
     int timeStamp;
-    int active=0;
-    int inactive=0;
-    int count=0; //total count of telemenatry data vehicles to calculate average bettery
-    int battery=0; //sum of all battery percenatges
-
+    
 
     void create(long long VIN_, string Manufacturer_, string Model_, string fleetType_, long long fleetId_, string status_, string owner_){
-        VIN=VIN;
+        VIN=VIN_;
         Manufacturer=Manufacturer_;
         Model=Model_;
         fleetType=fleetType_;
@@ -68,30 +73,30 @@ class Vehicle{
         cout<<endl;
 
     }
+/*
+//to generate dummy values of telementary data
+    void telementaryData(){
 
+}
 
+*/
     //Telemenary data DUMMY VALUES through input
     void telementaryData(){
 
         cout<<"Latitude: ";
-        cin>>coordinates.first;
-        cout<<endl;
+        cin>>latitude;
 
         cout<<"Longitude: ";
-        cin>>coordinates.second;
-        cout<<endl;
+        cin>>longitude;
 
         cout<<"Battery Level: ";
         cin>>batteryPercentage;
-        cout<<endl;
 
         //data to calcuate the average battery percenatge
         battery+=batteryPercentage;
-        count++;
 
         cout<<"Engine Status(On/Off/Idle): ";
         cin>>engineStatus;
-        cout<<endl;
 
         //to print the count of active and inactive vehicles
         if(engineStatus=="On"){  
@@ -102,17 +107,15 @@ class Vehicle{
 
         cout<<"Speed: ";
         cin>>speed;
-        cout<<endl;
 
         cout<<"Odometer Reading: ";
         cin>>odometerReading;
-        cout<<endl;
+
         //for calculating the distance travelled by the fleet
-        distance+=odometerReading;
+        fleetDistance+=odometerReading;
 
         cout<<"Time Stamp: ";
         cin>>timeStamp;
-        cout<<endl;
 
         //ALERT SYSTEM
         //Alert for battery and high speed
@@ -127,35 +130,12 @@ class Vehicle{
 }
 
 
-    //Basic Analytics on the basis of DUMMY Data (taken through input)
-
-    //total active vehicles in the fleet
-    void activeVehicles(){
-        cout<<"Total Active Vehicles: "<<active<<endl;;
-    }
-
-    //total inactive vehicles in the fleet
-    void inactiveVehicles(){
-        cout<<"Total Inactive Vehicles: "<<inactive<<endl;;
-    }
-
-    //average battery of vehicles in the fleet
-    void averageBattery(){
-        cout<<"Average Battery level: "<<battery/count<<endl;
-    }
-
-    //total distance travelled by the vehicles in the fleet
-    void totalDistance(){
-        cout<<"Total distance travelled by the fleet: "<<distance<<endl;
-    }
-
-
 
     //To receive telementary data
     //to get the coordinates of that vehicle
     void getlocation(){
-        cout<<"latitude: "<<coordinates.first<<endl;
-        cout<<"longitude: "<<coordinates.second<<endl;
+        cout<<"latitude: "<<latitude<<endl;
+        cout<<"longitude: "<<longitude<<endl;
     }
     //to get the bettery percenatge
     void getbattery(){
@@ -192,8 +172,8 @@ class Vehicle{
 
     //info of telementary data
     void telemenatryInfo(){
-        cout<<"Latitude: "<<coordinates.first<<endl;
-        cout<<"Longitude: "<<coordinates.second<<endl;
+        cout<<"Latitude: "<<latitude<<endl;
+        cout<<"Longitude: "<<longitude<<endl;
         cout<<"Battery Level: "<<batteryPercentage<<endl;
         cout<<"Engine Status(On/Off/Idle): "<<engineStatus<<endl;
         cout<<"Speed: "<<speed<<endl;
@@ -202,3 +182,97 @@ class Vehicle{
     }
 };
 
+//Basic Analytics on the basis of DUMMY Data (taken through input)
+
+    //total active vehicles in the fleet
+    void activeVehicles(){
+        cout<<"Total Active Vehicles: "<<active<<endl;;
+    }
+
+    //total inactive vehicles in the fleet
+    void inactiveVehicles(){
+        cout<<"Total Inactive Vehicles: "<<inactive<<endl;;
+    }
+
+    //average battery of vehicles in the fleet
+    void averageBattery(){
+        cout<<"Average Battery level: "<<battery/countt<<endl;
+    }
+
+    //total distance travelled by the vehicles in the fleet
+    void totalDistance(){
+        cout<<"Total distance travelled by the fleet: "<<fleetDistance<<endl;
+    }
+
+int main(){
+    Vehicle v1;
+    Vehicle v2;
+
+    v1.create(123, "Tesla", "Ev101", "personal", 321, "Active", "Kejal");
+    v2.create();
+
+    v1.telementaryData();
+
+    v1.generalInfo();
+    v1.telemenatryInfo();
+
+
+    activeVehicles();
+    inactiveVehicles();
+    averageBattery();
+    totalDistance();
+
+    v1.getbattery();
+    v1.getEngineStatus();
+    v1.getlocation();
+    v1.getOdometerReading();
+    v1.getSpeed();
+    
+}
+
+/*
+
+OUTPUT 
+
+Vehicle Identification Number: 456
+Manufacturer: Honda
+Model: H789
+fleet type: Corporate
+Fleet ID: 654
+Status: Active
+Owner: Jiyana
+Latitude: 20
+Longitude: 120
+Battery Level: 10
+Engine Status(On/Off/Idle): On
+Speed: 80
+Odometer Reading: 150
+Time Stamp: 100
+ALERT: Low Battery
+ALERT: Over-speeding | speed=50Km/hr
+Vehicle Identification Number: 123
+Manufacturer: Tesla
+Model: Ev101
+fleet type: personal
+Fleet ID: 321
+Status: Active
+Owner: Kejal
+Latitude: 20
+Longitude: 120
+Battery Level: 10
+Engine Status(On/Off/Idle): On
+Speed: 80
+Odometer Reading: 150
+Time Stamp: 100
+Total Active Vehicles: 1
+Total Inactive Vehicles: 0
+Average Battery level: 10
+Total distance travelled by the fleet: 150
+Battery Percentage: 10
+Engine Status: On
+latitude: 20
+longitude: 120
+Odometer Reading: 150
+Speed: 80
+
+*/
