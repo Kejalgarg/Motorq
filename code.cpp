@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <random>
 #include <string>
@@ -11,6 +10,54 @@ int countt=0; //total count of telemenatry data vehicles to calculate average be
 int battery=0; //sum of all battery percenatges
 long long fleetDistance; //to calculate distance travelled by the fleet
 
+
+vector<int> alert_battery;
+vector<int> alert_speed;
+
+void alert(int speed, int batteryPercentage){
+
+    if(batteryPercentage<=15){
+            alert_battery.push_back(1); //alert
+        }else{
+            alert_battery.push_back(0);
+        }
+
+        if(speed>50){
+            alert_speed.push_back(1); //alert
+        }else{
+            alert_speed.push_back(0); 
+        }
+
+        int count_battery=0;
+        for(int i=0; i<alert_battery.size();i++){
+            if(alert_battery[i]==1){
+                count_battery++;
+            }else{
+                count_battery=0;
+            }
+        }
+        //printing after 3 consecutive alerts
+        if(count_battery>=3){
+            cout<<"Alert: Low on battery"<<endl;
+            alert_battery.clear();
+        }
+
+        int count_speed=0;
+        for(int j=0; j<alert_speed.size();j++){
+            if(alert_speed[j]==1){
+                count_speed++;
+            }else{
+                count_speed=0;
+            }
+        }
+        //printing after 3 consecutive alerts
+        if(count_speed>=3){
+            cout<<"Alert: OVERSPEEDING"<<endl;
+            alert_speed.clear();
+        }
+}
+
+
 class Vehicle{
     public:
     long long VIN; //Vehicle Identification Number
@@ -20,7 +67,6 @@ class Vehicle{
     long long fleetId;
     string status; //Registration status: Active, Maintenance, Decommissioned
     string owner;
-   
 
 
 //Real-time Telemetry Data Processing
@@ -109,14 +155,9 @@ class Vehicle{
     fleetDistance += odometerReading;
 
     //ALERT SYSTEM
-        //Alert for battery and high speed
-        if(battery<=15){
-            cout<<"ALERT: Low Battery"<<endl;
-        }
-
-        if(speed>50){
-            cout<<"ALERT: Over-speeding | speed>50Km/hr"<<endl;
-        }
+    //Alert for battery and high speed
+    alert(speed, batteryPercentage);
+        
 
 }
 
@@ -284,7 +325,6 @@ int main(){
 }
 
 /*
-
 OUTPUT 
 
 Vehicle Identification Number: 456
@@ -327,7 +367,6 @@ latitude: 20
 longitude: 120
 Odometer Reading: 150
 Speed: 80
-
 */
 
 /*
@@ -372,5 +411,4 @@ latitude: 0
 longitude: 0
 Odometer Reading: 1
 Speed: 1826763056
-
 */
