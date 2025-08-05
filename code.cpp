@@ -88,11 +88,11 @@ class Vehicle{
     uniform_int_distribution<> statusDist(0, 2); 
 
 
-    double latitude = latDist(gen);
-    double longitude = lonDist(gen);
-    int batteryPercentage = batteryDist(gen);
-    int speed = speedDist(gen);
-    int odometerReading = odoDist(gen);
+    latitude = latDist(gen);
+    longitude = lonDist(gen);
+    batteryPercentage = batteryDist(gen);
+    speed = speedDist(gen);
+    odometerReading = odoDist(gen);
     long long timeStamp = timeDist(gen);
     if(statusDist(gen)==0) string engineStatus="On";
     if(statusDist(gen)==1) string engineStatus="Idle";
